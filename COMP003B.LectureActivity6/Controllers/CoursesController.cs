@@ -25,26 +25,33 @@ namespace COMP003B.LectureActivity6.Controllers
             return View(await _context.Courses.ToListAsync());
         }
 
-        // GET: Courses/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// GET: Courses/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.CourseId == id);
-            if (course == null)
-            {
-                return NotFound();
-            }
+			var course = await _context.Courses
+				.FirstOrDefaultAsync(m => m.CourseId == id);
+			if (course == null)
+			{
+				return NotFound();
+			}
 
-            return View(course);
-        }
+			// Get the students enrolled in the course
+			ViewBag.Students = from s in _context.Students
+							   join e in _context.Enrollments on s.StudentId equals e.StudentId
+							   join c in _context.Courses on e.CourseId equals c.CourseId
+							   where c.CourseId == id
+							   select s;
 
-        // GET: Courses/Create
-        public IActionResult Create()
+			return View(course);
+		}
+
+		// GET: Courses/Create
+		public IActionResult Create()
         {
             return View();
         }

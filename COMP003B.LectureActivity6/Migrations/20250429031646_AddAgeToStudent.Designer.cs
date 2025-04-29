@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace COMP003B.LectureActivity6.Migrations
 {
     [DbContext(typeof(WebDevAcademyContext))]
-    [Migration("20250429022302_AddAgeToStudent")]
+    [Migration("20250429031646_AddAgeToStudent")]
     partial class AddAgeToStudent
     {
         /// <inheritdoc />
@@ -71,6 +71,9 @@ namespace COMP003B.LectureActivity6.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"));
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
